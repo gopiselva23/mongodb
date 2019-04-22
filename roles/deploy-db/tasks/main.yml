@@ -1,0 +1,15 @@
+---
+- name: Add the mangodb repo
+  copy: src=mongodb.repo
+        dest="/etc/yum.repos.d/mongodb.repo"
+        owner=root group=root mode=0755
+
+- name: install mongodb-org
+  yum:
+    name: "{{ item }}"
+    state: present
+  notify: restart_mongod
+  with_items:
+  - mongodb-org
+  - mongo-10gen
+  - mongo-10gen-server

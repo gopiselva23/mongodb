@@ -1,0 +1,20 @@
+---
+- name: install python module 
+  shell: pip install pymongo
+- name: create Admin user
+  mongodb_user:
+    database: admin
+    name: admin
+    password: admin@123
+    state: present
+- name: create scm db
+  shell: mongo --eval="db.getSiblingDB('scm').createCollection('empty')"
+
+- name: create database user
+  mongodb_user:
+    login_user: admin
+    login_password: admin@123
+    database: scm
+    name: chqsvscm
+    password: 12345
+    roles: readWrite,dbAdmin
